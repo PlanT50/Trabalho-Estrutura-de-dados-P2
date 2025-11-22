@@ -82,6 +82,15 @@ public class SolucaoForense implements AnaliseForenseAvancada {
                 else {
                     String topo = pilha.peek();
 
+                    if (!topo.equals(ev.sessionId)) {
+                        invalidas.add(ev.sessionId); // logout da sessão errada
+                    } else {
+                        pilha.pop(); // sessão fechada corretamente
+                    }
+                }
+            }
+        }
+
     @Override
     public List<String> reconstruirLinhaTempo(String s, String s1) throws IOException {
         return List.of();
