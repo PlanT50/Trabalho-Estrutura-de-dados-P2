@@ -63,8 +63,8 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
         for (LogEvent ev : logs) {
 
-            pilhaPorUsuario.putIfAbsent(ev.userId, new Stack<>());
-            Stack<String> pilha = pilhaPorUsuario.get(ev.userId);
+            pilhaUsuario.putIfAbsent(ev.userId, new Stack<>());
+            Stack<String> pilha = pilhaUsuario.get(ev.userId);
 
             if (ev.action.equals("LOGIN")) {
 
@@ -90,7 +90,7 @@ public class SolucaoForense implements AnaliseForenseAvancada {
                 }
             }
         }
-        for (Stack<String> pilha : pilhaPorUsuario.values()) {
+        for (Stack<String> pilha : pilhaUsuario.values()) {
             while (!pilha.isEmpty()) {
                 invalidas.add(pilha.pop());
             }
