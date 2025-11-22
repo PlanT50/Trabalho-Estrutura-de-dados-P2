@@ -54,11 +54,11 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
     @Override
-    public Set<String> encontrarSessoesInvalidas(String var1) throws IOException {
-        List<logEvent> logs = lerLogs(caminhoCsv);
+    public Set<String> encontrarSessoesInvalidas(String Csv) throws IOException {
+        List<LogEvent> logs = lerLogs(Csv);
 
-        Map<String, Stack<String>> pilhaUsuario = new Hashmap<>();
-        Set<String> invalidas = new Hashset<>();
+        Map<String, Stack<String>> pilhaUsuario = new HashMap<>();
+        Set<String> invalidas = new HashSet<>();
 
         for (LogEvent ev : logs) {
 
