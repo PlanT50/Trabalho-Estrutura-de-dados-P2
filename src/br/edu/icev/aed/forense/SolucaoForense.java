@@ -61,6 +61,17 @@ public class SolucaoForense implements AnaliseForenseAvancada {
         Map<String, Stack<String>> pilhaUsuario = new Hashmap<>();
         Set<String> invalidas = new Hashset<>();
 
+        for (LogEvent ev : logs) {
+
+            pilhaPorUsuario.putIfAbsent(ev.userId, new Stack<>());
+            Stack<String> pilha = pilhaPorUsuario.get(ev.userId);
+
+            if (ev.action.equals("LOGIN")) {
+
+                if (!pilha.isEmpty()) {
+                    invalidas.add(ev.sessionId);
+                }
+
     }
 
     @Override
