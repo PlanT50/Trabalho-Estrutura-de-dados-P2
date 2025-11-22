@@ -72,7 +72,15 @@ public class SolucaoForense implements AnaliseForenseAvancada {
                     invalidas.add(ev.sessionId);
                 }
 
+                pilha.push(ev.sessionId)
     }
+            else if (ev.action.equals("LOGOUT")) {
+
+                if (pilha.isEmpty()) {
+                    invalidas.add(ev.sessionId); // logout sem login
+                }
+                else {
+                    String topo = pilha.peek();
 
     @Override
     public List<String> reconstruirLinhaTempo(String s, String s1) throws IOException {
