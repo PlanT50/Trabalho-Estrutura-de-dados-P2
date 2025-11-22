@@ -46,7 +46,7 @@ public class SolucaoForense implements AnaliseForenseAvancada {
                 int severity = Integer.parseInt(c[5]);
                 long bytes = Long.parseLong(c[6]);
 
-                logs.add(new LogEvent(timestamp, user, session, action, resource, severity, bytes)));
+                logs.add(new LogEvent(timestamp, user, session, action, resource, severity, bytes));
             }
         }
         return logs;
@@ -71,14 +71,12 @@ public class SolucaoForense implements AnaliseForenseAvancada {
                     invalidas.add(ev.sessionId);
                 }
 
-                pilha.push(ev.sessionId)
-    }
-            else if (ev.action.equals("LOGOUT")) {
+                pilha.push(ev.sessionId);
+            } else if (ev.action.equals("LOGOUT")) {
 
                 if (pilha.isEmpty()) {
                     invalidas.add(ev.sessionId);
-                }
-                else {
+                } else {
                     String topo = pilha.peek();
 
                     if (!topo.equals(ev.sessionId)) {
@@ -93,30 +91,31 @@ public class SolucaoForense implements AnaliseForenseAvancada {
             while (!pilha.isEmpty()) {
                 invalidas.add(pilha.pop());
             }
+        }
             return invalidas;
         }
 
 
         @Override
-        public List<String> reconstruirLinhaTempo(String var1, String var2) throws IOException {
+        public List<String> reconstruirLinhaTempo (String var1, String var2) throws IOException {
             return List.of();
         }
 
 
         @Override
-        public List<Alerta> priorizarAlertas(String var1, int var2) throws IOException {
+        public List<Alerta> priorizarAlertas (String var1,int var2) throws IOException {
             return List.of();
         }
 
 
         @Override
-        public Map<Long, Long> encontrarPicosTransferencia(String var1) throws IOException {
+        public Map<Long, Long> encontrarPicosTransferencia (String var1) throws IOException {
             return Map.of();
         }
 
 
         @Override
-        public Optional<List<String>> rastrearContaminacao(String var1, String var2, String var3) throws IOException {
+        public Optional<List<String>> rastrearContaminacao (String var1, String var2, String var3) throws IOException {
             return Optional.empty();
         }
 
