@@ -56,7 +56,11 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
     @Override
     public Set<String> encontrarSessoesInvalidas(String s) throws IOException {
-        return Set.of();
+        List<logEvent> logs = lerLogs(caminhoCsv);
+
+        Map<String, Stack<String>> pilhaUsuario = new Hashmap<>();
+        Set<String> invalidas = new Hashset<>();
+
     }
 
     @Override
