@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class SolucaoForense implements AnaliseForenseAvancada {
+    public SolucaoForense() {}
+
     private static class LogEvent {
         long timestamp;
         String userId;
@@ -97,8 +99,18 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
         @Override
-        public List<String> reconstruirLinhaTempo (String var1, String var2) throws IOException {
-            return List.of();
+        public List<String> reconstruirLinhaTempo (String caminhoarq, String sessionID) throws IOException {
+        List<LogEvent> logs = lerLogs(caminhoarq);
+
+        Queue<String> fila = new LinkedList<>();
+
+        for (LogEvent acao : logs) {
+            if (acao.sessionId.equals(sessionID)) {
+                fila.add(acao.action);
+            }
+        }
+        return new ArrayList<>(fila);
+
         }
 
 
