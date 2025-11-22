@@ -77,21 +77,27 @@ public class SolucaoForense implements AnaliseForenseAvancada {
             else if (ev.action.equals("LOGOUT")) {
 
                 if (pilha.isEmpty()) {
-                    invalidas.add(ev.sessionId); // logout sem login
+                    invalidas.add(ev.sessionId);
                 }
                 else {
                     String topo = pilha.peek();
 
                     if (!topo.equals(ev.sessionId)) {
-                        invalidas.add(ev.sessionId); // logout da sessão errada
+                        invalidas.add(ev.sessionId);
                     } else {
-                        pilha.pop(); // sessão fechada corretamente
+                        pilha.pop();
                     }
                 }
             }
         }
+        for (Stack<String> pilha : pilhaPorUsuario.values()) {
+            while (!pilha.isEmpty()) {
+                invalidas.add(pilha.pop());
+            }
+        }
 
-    @Override
+
+        @Override
     public List<String> reconstruirLinhaTempo(String s, String s1) throws IOException {
         return List.of();
     }
