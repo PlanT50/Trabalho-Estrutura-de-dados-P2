@@ -3,11 +3,10 @@ package br.edu.icev.aed.forense;
 import br.edu.icev.aed.forense.AnaliseForenseAvancada;
 import br.edu.icev.aed.forense.Alerta;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class SolucaoForense implements AnaliseForenseAvancada {
     private static class LogEvent {
@@ -55,7 +54,7 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
     @Override
-    public Set<String> encontrarSessoesInvalidas(String s) throws IOException {
+    public Set<String> encontrarSessoesInvalidas(String var1) throws IOException {
         List<logEvent> logs = lerLogs(caminhoCsv);
 
         Map<String, Stack<String>> pilhaUsuario = new Hashmap<>();
@@ -99,22 +98,26 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
         @Override
-    public List<String> reconstruirLinhaTempo(String s, String s1) throws IOException {
-        return List.of();
-    }
+        public List<String> reconstruirLinhaTempo(String var1, String var2) throws IOException {
+            return List.of();
+        }
 
-    @Override
-    public List<Alerta> priorizarAlertas(String s, int i) throws IOException {
-        return List.of();
-    }
 
-    @Override
-    public Map<Long, Long> encontrarPicosTransferencia(String s) throws IOException {
-        return Map.of();
-    }
+        @Override
+        public List<Alerta> priorizarAlertas(String var1, int var2) throws IOException {
+            return List.of();
+        }
 
-    @Override
-    public Optional<List<String>> rastrearContaminacao(String s, String s1, String s2) throws IOException {
-        return Optional.empty();
+
+        @Override
+        public Map<Long, Long> encontrarPicosTransferencia(String var1) throws IOException {
+            return Map.of();
+        }
+
+
+        @Override
+        public Optional<List<String>> rastrearContaminacao(String var1, String var2, String var3) throws IOException {
+            return Optional.empty();
+        }
+
     }
-}
