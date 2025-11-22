@@ -44,7 +44,7 @@ public class SolucaoForense implements AnaliseForenseAvancada {
                 String action = c[3];
                 String resource = c[4];
                 int severity = Integer.parseInt(c[5]);
-                long bytes = Long.parseLong(c[6]);
+                long bytes = c[6].isEmpty() ? 0 : Long.parseLong(c[6]);
 
                 logs.add(new LogEvent(timestamp, user, session, action, resource, severity, bytes));
             }
