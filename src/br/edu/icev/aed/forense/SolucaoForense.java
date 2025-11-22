@@ -94,6 +94,7 @@ public class SolucaoForense implements AnaliseForenseAvancada {
             while (!pilha.isEmpty()) {
                 invalidas.add(pilha.pop());
             }
+            return invalidas;
         }
 
 
