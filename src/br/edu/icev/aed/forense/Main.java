@@ -9,7 +9,7 @@ public class Main {
 
         SolucaoForense sf = new SolucaoForense();
 
-        List<Alerta> top = sf.priorizarAlertas("teste3.csv", 10);
+        List<Alerta> top = sf.priorizarAlertas("teste3.csv", 50);
 
         for (Alerta a : top) {
             System.out.println(a);

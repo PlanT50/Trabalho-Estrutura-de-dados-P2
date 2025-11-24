@@ -122,7 +122,7 @@ public class SolucaoForense implements AnaliseForenseAvancada {
         PriorityQueue<Alerta> fila = new PriorityQueue<>(new Comparator<Alerta>() {
             @Override
             public int compare(Alerta a1, Alerta a2) {
-                return Integer.compare(a2.getSeverity(), a1.getSeverity());
+                return Integer.compare(a2.getSeverityLevel(), a1.getSeverityLevel());
             }
         });
 
