@@ -32,10 +32,10 @@ public class SolucaoForense implements AnaliseForenseAvancada {
         }
     }
 
-    private List<LogEvent> lerLogs(String caminho) throws IOException {
+    private List<LogEvent> lerLogs(String caminhoarq) throws IOException {
         List<LogEvent> logs = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoarq))) {
             String linha = br.readLine();
             while ((linha = br.readLine()) != null) {
                 String[] c = linha.split(",");
@@ -56,8 +56,8 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
     @Override
-    public Set<String> encontrarSessoesInvalidas(String Csv) throws IOException {
-        List<LogEvent> logs = lerLogs(Csv);
+    public Set<String> encontrarSessoesInvalidas(String caminhoarq) throws IOException {
+        List<LogEvent> logs = lerLogs(caminhoarq);
 
         Map<String, Stack<String>> pilhaUsuario = new HashMap<>();
         Set<String> invalidas = new HashSet<>();
@@ -115,8 +115,9 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
         @Override
-        public List<Alerta> priorizarAlertas (String var1,int var2) throws IOException {
-            return List.of();
+        public List<Alerta> priorizarAlertas (String caminhoarq, int id) throws IOException {
+
+
         }
 
 

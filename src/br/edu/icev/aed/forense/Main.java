@@ -1,18 +1,19 @@
 package br.edu.icev.aed.forense;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        SolucaoForense teste = new SolucaoForense();
+        SolucaoForense teste = new SolucaoForense ();
 
-        Set<String> invalidas = teste.encontrarSessoesInvalidas("teste.csv");
+        List<String> lihadotempo = teste.reconstruirLinhaTempo("teste2.csv", "s1");
 
-        System.out.println("Sessões inválidas encontradas:");
-        for (String s : invalidas) {
-            System.out.println(s);
+        System.out.println("linha do tempo: s1 " );
+        for (String acao : lihadotempo) {
+            System.out.println(acao);
         }
     }
 }

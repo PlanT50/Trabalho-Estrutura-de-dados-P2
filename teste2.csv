@@ -1,0 +1,8 @@
+timestamp,userId,sessionId,action,target,severity,bytes
+1000,alice,s1,LOGIN,/bin/bash,5,0
+1010,alice,s1,COMMAND_EXEC,/bin/ls,3,1024
+1020,alice,s1,FILE_ACCESS,/home/alice/.ssh/id_rsa,8,0
+1030,alice,s1,LOGOUT,/bin/bash,5,0
+1100,bob,s2,LOGIN,/bin/bash,4,0
+1110,bob,s2,FILE_ACCESS,/tmp/file.txt,3,512
+1120,bob,s2,LOGOUT,/bin/bash,4,0
