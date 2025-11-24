@@ -134,6 +134,15 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
             fila.add(alerta);
         }
+            List<Alerta> resultado = new ArrayList<>();
+
+
+            for (int i = 0; i < n && !fila.isEmpty(); i++) {
+                resultado.add(fila.poll());
+            }
+
+            return resultado;
+
 
         }
 
