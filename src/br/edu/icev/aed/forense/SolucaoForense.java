@@ -115,7 +115,7 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
         @Override
-        public List<Alerta> priorizarAlertas (String caminhoarq, int id) throws IOException {
+        public List<Alerta> priorizarAlertas (String caminhoarq, int n) throws IOException {
 
         List<LogEvent> logs = lerLogs(caminhoarq);
 
