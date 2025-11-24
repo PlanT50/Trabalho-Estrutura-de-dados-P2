@@ -38,23 +38,33 @@ public class SolucaoForense implements AnaliseForenseAvancada {
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoarq))) {
             String linha = br.readLine();
             while ((linha = br.readLine()) != null) {
+                linha = linha.trim();
+                if (linha.isEmpty()) continue;
+
                 String[] c = linha.split(",");
 
-                long timestamp = Long.parseLong(c[0]);
-                String user = c[1];
-                String session = c[2];
-                String action = c[3];
-                String resource = c[4];
-                int severity = Integer.parseInt(c[5]);
-                long bytes = c[6].isEmpty() ? 0 : Long.parseLong(c[6]);
+                if (c.length < 7) continue;
 
-                logs.add(new LogEvent(timestamp, user, session, action, resource, severity, bytes));
+                try {
+                    long timestamp = Long.parseLong(c[0].trim());
+                    String user = c[1].trim();
+                    String session = c[2].trim();
+                    String action = c[3].trim();
+                    String resource = c[4].trim();
+                    int severity = Integer.parseInt(c[5].trim());
+                    long bytes = c[6].trim().isEmpty() ? 0 : Long.parseLong(c[6].trim());
+
+                    logs.add(new LogEvent(timestamp, user, session, action, resource, severity, bytes));
+                } catch (NumberFormatException e) {
+                    continue;
+                }
             }
         }
         return logs;
     }
 
 
+    //D1
     @Override
     public Set<String> encontrarSessoesInvalidas(String caminhoarq) throws IOException {
         List<LogEvent> logs = lerLogs(caminhoarq);
@@ -97,34 +107,33 @@ public class SolucaoForense implements AnaliseForenseAvancada {
             return invalidas;
         }
 
-
+    //D2
         @Override
         public List<String> reconstruirLinhaTempo (String caminhoarq, String sessionID) throws IOException {
         List<LogEvent> logs = lerLogs(caminhoarq);
 
-        Queue<String> fila = new LinkedList<>();
+            List<String> resultado = new ArrayList<>();
 
-        for (LogEvent acao : logs) {
-            if (acao.sessionId.equals(sessionID)) {
-                fila.add(acao.action);
+            for (LogEvent ev : logs) {
+                if (ev.sessionId.equals(sessionID)) {
+                    resultado.add(ev.action);
+                }
             }
+
+            return resultado;
         }
-        return new ArrayList<>(fila);
-
-        }
 
 
+
+    //D3
     @Override
     public List<Alerta> priorizarAlertas(String caminhoarq, int n) throws IOException {
 
         List<LogEvent> logs = lerLogs(caminhoarq);
 
-        PriorityQueue<Alerta> fila = new PriorityQueue<>(new Comparator<Alerta>() {
-            @Override
-            public int compare(Alerta a1, Alerta a2) {
-                return Integer.compare(a2.getSeverityLevel(), a1.getSeverityLevel());
-            }
-        });
+        PriorityQueue<Alerta> fila = new PriorityQueue<>(
+                (a1, a2) -> Integer.compare(a2.getSeverityLevel(), a1.getSeverityLevel())
+        );
 
         for (LogEvent acao : logs) {
             fila.add(new Alerta(
@@ -148,14 +157,34 @@ public class SolucaoForense implements AnaliseForenseAvancada {
     }
 
 
-
+    //D4
     @Override
-        public Map<Long, Long> encontrarPicosTransferencia (String var1) throws IOException {
-            return Map.of();
+        public Map<Long, Long> encontrarPicosTransferencia (String caminhoarq) throws IOException {
+        List<LogEvent> logs = lerLogs(caminhoarq);
+
+        Map<Long, Long> resultado = new HashMap<>();
+        Stack<LogEvent> pilha = new Stack<>();
+
+        for (int i = logs.size() - 1; i >= 0; i--) {
+            LogEvent atual = logs.get(i);
+
+            while (!pilha.isEmpty() && pilha.peek().bytes <= atual.bytes) {
+                pilha.pop();
+            }
+
+            if (!pilha.isEmpty()) {
+                resultado.put(atual.timestamp, pilha.peek().timestamp);
+            }
+
+            pilha.push(atual);
         }
 
+        return resultado;
+    }
 
-        @Override
+
+
+    @Override
         public Optional<List<String>> rastrearContaminacao (String var1, String var2, String var3) throws IOException {
             return Optional.empty();
         }
