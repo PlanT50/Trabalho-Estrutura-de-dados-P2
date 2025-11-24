@@ -7,13 +7,14 @@ import java.util.Set;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        SolucaoForense teste = new SolucaoForense ();
+        SolucaoForense sf = new SolucaoForense();
 
-        List<String> lihadotempo = teste.reconstruirLinhaTempo("teste2.csv", "s1");
+        List<Alerta> top = sf.priorizarAlertas("teste3.csv", 10);
 
-        System.out.println("linha do tempo: s1 " );
-        for (String acao : lihadotempo) {
-            System.out.println(acao);
+        for (Alerta a : top) {
+            System.out.println(a);
         }
+
     }
-}
+    }
+

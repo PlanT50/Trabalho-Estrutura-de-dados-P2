@@ -114,15 +114,20 @@ public class SolucaoForense implements AnaliseForenseAvancada {
         }
 
 
-        @Override
-        public List<Alerta> priorizarAlertas (String caminhoarq, int n) throws IOException {
+    @Override
+    public List<Alerta> priorizarAlertas(String caminhoarq, int n) throws IOException {
 
         List<LogEvent> logs = lerLogs(caminhoarq);
 
-        PriorityQueue<Alerta> fila = new PriorityQueue<>();
+        PriorityQueue<Alerta> fila = new PriorityQueue<>(new Comparator<Alerta>() {
+            @Override
+            public int compare(Alerta a1, Alerta a2) {
+                return Integer.compare(a2.getSeverity(), a1.getSeverity());
+            }
+        });
 
         for (LogEvent acao : logs) {
-            Alerta alerta = new Alerta(
+            fila.add(new Alerta(
                     acao.timestamp,
                     acao.userId,
                     acao.sessionId,
@@ -130,24 +135,21 @@ public class SolucaoForense implements AnaliseForenseAvancada {
                     acao.resource,
                     acao.severity,
                     acao.bytes
-            );
-
-            fila.add(alerta);
-        }
-            List<Alerta> resultado = new ArrayList<>();
-
-
-            for (int i = 0; i < n && !fila.isEmpty(); i++) {
-                resultado.add(fila.poll());
-            }
-
-            return resultado;
-
-
+            ));
         }
 
+        List<Alerta> resultado = new ArrayList<>();
 
-        @Override
+        for (int i = 0; i < n && !fila.isEmpty(); i++) {
+            resultado.add(fila.poll());
+        }
+
+        return resultado;
+    }
+
+
+
+    @Override
         public Map<Long, Long> encontrarPicosTransferencia (String var1) throws IOException {
             return Map.of();
         }
