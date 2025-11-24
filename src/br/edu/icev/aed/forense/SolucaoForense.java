@@ -119,10 +119,20 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
         List<LogEvent> logs = lerLogs(caminhoarq);
 
-        PriorityQueue<Alerta> alertas = new PriorityQueue<>();
+        PriorityQueue<Alerta> fila = new PriorityQueue<>();
 
         for (LogEvent acao : logs) {
-            Alerta alerta = new Alerta()
+            Alerta alerta = new Alerta(
+                    acao.timestamp,
+                    acao.userId,
+                    acao.sessionId,
+                    acao.action,
+                    acao.resource,
+                    acao.severity,
+                    acao.bytes
+            );
+
+            fila.add(alerta);
         }
 
         }
