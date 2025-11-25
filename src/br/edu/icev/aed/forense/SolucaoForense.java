@@ -185,8 +185,68 @@ public class SolucaoForense implements AnaliseForenseAvancada {
 
 
     @Override
-        public Optional<List<String>> rastrearContaminacao (String var1, String var2, String var3) throws IOException {
-            return Optional.empty();
+    public Optional<List<String>> rastrearContaminacao(String caminhoarq,
+                                                       String recursoInicial,
+                                                       String recursoAlvo) throws IOException {
+
+        List<LogEvent> logs = lerLogs(caminhoarq);
+
+        boolean existe = logs.stream().anyMatch(l -> l.resource.equals(recursoInicial));
+        if (recursoInicial.equals(recursoAlvo) && existe) {
+            return Optional.of(List.of(recursoInicial));
         }
 
-    }
+        Map<String, List<String>> adj = new HashMap<>();
+
+        Map<String, List<LogEvent>> porSessao = new HashMap<>();
+        for (LogEvent ev : logs) {
+            porSessao.computeIfAbsent(ev.sessionId, x -> new ArrayList<>()).add(ev);
+        }
+
+        for (List<LogEvent> sessao : porSessao.values()) {
+            sessao.sort(Comparator.comparing(l -> l.timestamp));
+
+            for (int i = 0; i < sessao.size() - 1; i++) {
+                String from = sessao.get(i).resource;
+                String to = sessao.get(i + 1).resource;
+                adj.computeIfAbsent(from, x -> new ArrayList<>()).add(to);
+            }
+        }
+
+        Queue<String> fila = new LinkedList<>();
+        fila.add(recursoInicial);
+
+        Set<String> visitados = new HashSet<>();
+        visitados.add(recursoInicial);
+
+        Map<String, String> predecessor = new HashMap<>();
+
+        while (!fila.isEmpty()) {
+            String atual = fila.poll();
+
+            if (!adj.containsKey(atual)) continue;
+
+            for (String prox : adj.get(atual)) {
+                if (!visitados.contains(prox)) {
+                    visitados.add(prox);
+                    predecessor.put(prox, atual);
+                    fila.add(prox);
+
+                    if (prox.equals(recursoAlvo)) {
+                        List<String> caminho = new ArrayList<>();
+                        String cur = recursoAlvo;
+
+                        while (cur != null) {
+                            caminho.add(cur);
+                            cur = predecessor.get(cur);
+                        }
+
+                        Collections.reverse(caminho);
+                        return Optional.of(caminho);
+                    }
+                }
+            }
+        }
+
+        return Optional.empty();
+    }}
