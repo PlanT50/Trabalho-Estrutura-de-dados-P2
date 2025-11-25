@@ -1,6 +1,0 @@
-timestamp,userId,sessionId,action,target,severity,bytes
-1000,userA,s1,LOGIN,home,1,0
-1500,userA,s1,LOGOUT,home,1,0
-2000,userA,s2,LOGIN,home,1,0
-2100,userA,s3,LOGIN,home,1,0
-2200,userA,s2,LOGOUT,home,1,0
